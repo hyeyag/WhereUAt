@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FriendlyApplication</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <plurals name="likes_count">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
+    <plurals name="views_count">
+        <item quantity="one">%d view</item>
+        <item quantity="other">%d viewss</item>
+    </plurals>
+</resources>
