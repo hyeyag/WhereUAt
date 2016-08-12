@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +59,31 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                //transaction.replace(R.id.container, mSectionsPagerAdapter.getItem(tab.getPosition()));
+                transaction.addToBackStack(null);
+                transaction.commit();
+                mViewPager.setCurrentItem(tab.getPosition());
+                Log.d("TEST", "onTabSelected back stack count : " + getSupportFragmentManager().getBackStackEntryCount());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
       fab.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -91,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("TEST", "onBackPressed back stack count : " + getSupportFragmentManager().getBackStackEntryCount());
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }else{
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 
 
 
@@ -166,12 +202,9 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-            View rootView = null;
+            View rootView;
 
             if(sectionNumber == 1){
-                rootView = inflater.inflate(R.layout.item_feed, container, false);
-            }
-            else if(sectionNumber == 2){
                 rootView = inflater.inflate(R.layout.feed_list, container, false);
                 if (rootView instanceof RecyclerView) {
                     Context context = rootView.getContext();
@@ -185,6 +218,9 @@ public class MainActivity extends AppCompatActivity {
                     mRecyclerView.setAdapter(mAdapter);
 
                 }
+            }
+            else if(sectionNumber == 2){
+                rootView = inflater.inflate(R.layout.item_detail, container, false);
             }
             else{
                 //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
