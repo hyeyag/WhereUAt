@@ -21,28 +21,28 @@
         android:orientation="horizontal"
         android:layout_weight="15">
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/thumbnail01"
             android:scaleType="fitCenter"
             android:src="@drawable/thumbnail_001"/>
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail02"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/thumbnail_002"/>
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail03"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/thumbnail_003"/>
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail04"
             android:layout_weight="1"
