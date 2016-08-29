@@ -21,7 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.GridView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -185,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
         private RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
+        private GridView mGridView;
+        private ImageAdapter mImageAdapter;
 
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
@@ -215,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     mRecyclerView.setLayoutManager(mLayoutManager);
 
                     mAdapter = new MyFeedListAdapter(context);
+                    mAdapter.setHasStableIds(true);
                     mRecyclerView.setAdapter(mAdapter);
 
                 }
@@ -223,11 +226,13 @@ public class MainActivity extends AppCompatActivity {
                 rootView = inflater.inflate(R.layout.item_detail, container, false);
             }
             else{
-                //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-                rootView = inflater.inflate(R.layout.fragment_main, container, false);
-                TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-                //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-                textView.setText(getString(R.string.section_format, sectionNumber));
+                rootView = inflater.inflate(R.layout.item_grid, container, false);
+                if (rootView instanceof GridView) {
+                    Context context = rootView.getContext();
+                    mGridView = (GridView) rootView;
+                    mImageAdapter = new ImageAdapter(context);
+                    mGridView.setAdapter(mImageAdapter);
+                }
             }
 
             return rootView;
