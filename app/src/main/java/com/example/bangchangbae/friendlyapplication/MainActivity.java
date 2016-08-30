@@ -26,6 +26,7 @@ import android.widget.GridView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    final String mMainTabStackTag = "Main Tab";
+
+    enum TabType
+    {
+        HOME, FIND, SCHEDULE, FAVORITE, MY
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -58,16 +65,28 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        int[] iconList ={R.drawable.ic_home_black_24dp,
+                R.drawable.ic_find_in_page_black_24dp,
+                R.drawable.ic_event_black_24dp,
+                R.drawable.ic_favorite_border_black_24dp,
+                R.drawable.ic_perm_identity_black_24dp
+        };
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(iconList[i]);
+        };
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 //transaction.replace(R.id.container, mSectionsPagerAdapter.getItem(tab.getPosition()));
-                transaction.addToBackStack(null);
-                transaction.commit();
+                //transaction.add(R.id.container, mSectionsPagerAdapter.getItem(tab.getPosition()));
+                //transaction.attach(mSectionsPagerAdapter.getItem(tab.getPosition()));
+                //transaction.addToBackStack(null);
+                //transaction.commit();
+
                 mViewPager.setCurrentItem(tab.getPosition());
                 Log.d("TEST", "onTabSelected back stack count : " + getSupportFragmentManager().getBackStackEntryCount());
             }
@@ -135,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private Context mContext;
+        public SectionsPagerAdapter(Context context, FragmentManager fm) {
             super(fm);
+            this.mContext = context;
         }
 
         @Override
@@ -149,22 +169,27 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 5 total pages.
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "HOME";
                 case 1:
-                    return "SECTION 2";
+                    return "FIND";
                 case 2:
-                    return "SECTION 3";
+                    return "SCHEDULE";
+                case 3:
+                    return "FAVORITE";
+                case 4:
+                    return "MY";
             }
             return null;
         }
+
     }
 
     /**

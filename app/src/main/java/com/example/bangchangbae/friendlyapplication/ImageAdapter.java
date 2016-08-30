@@ -19,13 +19,21 @@ public class ImageAdapter extends BaseAdapter {
     private LruCache<String, Bitmap> mMemoryCache;
     private Integer[] mImageIds = {
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.songdo, R.drawable.junju,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.songdo, R.drawable.junju,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.songdo, R.drawable.junju,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.songdo, R.drawable.junju,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.songdo, R.drawable.junju,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.dome, R.drawable.songdo,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.dome, R.drawable.songdo,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
+            R.drawable.dome, R.drawable.songdo,
             R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
             R.drawable.songdo, R.drawable.junju,
             R.drawable.dome, R.drawable.songdo,
@@ -108,7 +116,7 @@ public class ImageAdapter extends BaseAdapter {
     private Bitmap resizeResource(int imageResourceId, int width, int height){
         int requestWidth = width;
         int requestHeight = height;
-        return Uitil.decodeThumbnailImageFromResource(mContext.getResources(), imageResourceId, requestWidth, requestHeight);
+        return Uitil.decodeSampledBitmapFromResource(mContext.getResources(), imageResourceId, requestWidth, requestHeight);
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
