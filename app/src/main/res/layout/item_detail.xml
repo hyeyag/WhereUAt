@@ -144,23 +144,8 @@
         android:layout_height="0px"
         android:layout_weight="15"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:orientation="horizontal"
-            android:layout_weight="3">
-            <ImageView
-                android:id="@+id/ivUserProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile"
-                android:scaleType="fitStart" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/userid"
-                android:text="웨얼유앳(Where U At)"/>
-        </LinearLayout>
+
+        <include layout="@layout/id_layout" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0px"

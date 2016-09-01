@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+
+import com.example.bangchangbae.friendlyapplication.common.Util;
+import com.example.bangchangbae.friendlyapplication.data.MyFeed;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +22,11 @@ import java.util.List;
  */
 public class MyFeedListAdapter extends RecyclerView.Adapter<MyFeedListAdapter.ViewHolder> {
     private List<MyFeed> myList;
-    private Context context;
+    private Context mContext;
 
     public MyFeedListAdapter(Context context) {
         this.myList = new ArrayList<>();
-        this.context = context;
+        this.mContext = context;
         this.update();
     }
     public void update(){
@@ -98,8 +102,6 @@ public class MyFeedListAdapter extends RecyclerView.Adapter<MyFeedListAdapter.Vi
     }
 
     private Bitmap resizeResource(int imageResourceId, int width, int height){
-        int requestWidth = width;
-        int requestHeight = height;
-        return Uitil.decodeSampledBitmapFromResource(context.getResources(), imageResourceId, requestWidth, requestHeight);
+        return Util.decodeSampledBitmapFromResource(mContext.getResources(), imageResourceId, width, height);
     }
 }

@@ -1,6 +1,9 @@
-package com.example.bangchangbae.friendlyapplication;
+package com.example.bangchangbae.friendlyapplication.common;
 
 import android.app.Application;
+
+import com.example.bangchangbae.friendlyapplication.data.MyDetail;
+import com.example.bangchangbae.friendlyapplication.data.MyFeed;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.example.bangchangbae.friendlyapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,14 +15,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ListView;
 
+import com.example.bangchangbae.friendlyapplication.common.HistoryMoveViewPager;
+import com.example.bangchangbae.friendlyapplication.common.RecyclerItemClickListener;
+import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
+import com.example.bangchangbae.friendlyapplication.content.WriteContentActivity;
+import com.example.bangchangbae.friendlyapplication.data.MySearchResult;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,27 +47,21 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
-    final String mMainTabStackTag = "Main Tab";
-
-    enum TabType
-    {
-        HOME, FIND, SCHEDULE, FAVORITE, MY
-    }
+    private HistoryMoveViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (HistoryMoveViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -80,15 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                //transaction.replace(R.id.container, mSectionsPagerAdapter.getItem(tab.getPosition()));
-                //transaction.add(R.id.container, mSectionsPagerAdapter.getItem(tab.getPosition()));
-                //transaction.attach(mSectionsPagerAdapter.getItem(tab.getPosition()));
-                //transaction.addToBackStack(null);
-                //transaction.commit();
-
-                mViewPager.setCurrentItem(tab.getPosition());
-                Log.d("TEST", "onTabSelected back stack count : " + getSupportFragmentManager().getBackStackEntryCount());
+                int tabPosition = tab.getPosition();
+                //mViewPager.setCurrentItem(tab.getPosition());
+                mViewPager.Go(tabPosition);
             }
 
             @Override
@@ -109,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
           public void onClick(View view) {
               Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                       .setAction("Action", null).show();
+
+              Context context = view.getContext();
+              Intent intent = new Intent(context, WriteContentActivity.class);
+              context.startActivity(intent);
           }
       });
 
@@ -139,11 +138,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d("TEST", "onBackPressed back stack count : " + getSupportFragmentManager().getBackStackEntryCount());
-        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+        if(!mViewPager.Back()) {
             super.onBackPressed();
-        }else{
-            getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -235,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 rootView = inflater.inflate(R.layout.feed_list, container, false);
                 if (rootView instanceof RecyclerView) {
                     Context context = rootView.getContext();
-                    RecyclerView mRecyclerView = (RecyclerView) rootView;
+                    mRecyclerView = (RecyclerView) rootView;
                     mRecyclerView.setHasFixedSize(true);
 
                     mLayoutManager = new LinearLayoutManager(context);
@@ -245,10 +241,50 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.setHasStableIds(true);
                     mRecyclerView.setAdapter(mAdapter);
 
+                    mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Context context = view.getContext();
+                            Intent intent = new Intent(context, ContentActivity.class);
+                            context.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onLongItemClick(View view, int position) {
+
+                        }
+                    }));
+
                 }
             }
             else if(sectionNumber == 2){
-                rootView = inflater.inflate(R.layout.item_detail, container, false);
+                rootView = inflater.inflate(R.layout.search_layout, container, false);
+                ListView searchResult = (ListView)rootView.findViewById(R.id.search_result_list);
+                ResultAdapter adapter = new ResultAdapter(rootView.getContext());
+                searchResult.setAdapter(adapter);
+                // TODO search 처리를 위해서 view를 하나 따야겠다
+
+            }
+            else if (sectionNumber == 3){
+                // 이건 나중에~~
+                rootView = null;
+            }
+            else if(sectionNumber == 4){
+                rootView = inflater.inflate(R.layout.favorite_layout, container, false);
+                Context context = rootView.getContext();
+                GridView infoGrid = (GridView)rootView.findViewById(R.id.gridview);
+                ImageAdapter imageAdapter = new ImageAdapter(context);
+                infoGrid.setAdapter(imageAdapter);
+                // TODO 초기 구성 필요 : grid view 대신 검색 하라는 안내처음에는 아무것도 없음
+                // TODO grid view 에 click 이벤트 처리 -> content activity 로
+                // TODO search 처리를 위해서 view를 하나 따야겠다
+            }
+            else if(sectionNumber == 5){
+                rootView = inflater.inflate(R.layout.my_info_layout, container, false);
+                Context context = rootView.getContext();
+                GridView infoGrid = (GridView)rootView.findViewById(R.id.gridview);
+                ImageAdapter imageAdapter = new ImageAdapter(context);
+                infoGrid.setAdapter(imageAdapter);
             }
             else{
                 rootView = inflater.inflate(R.layout.item_grid, container, false);

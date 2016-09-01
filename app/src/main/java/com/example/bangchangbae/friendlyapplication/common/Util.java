@@ -1,4 +1,4 @@
-package com.example.bangchangbae.friendlyapplication;
+package com.example.bangchangbae.friendlyapplication.common;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,7 +8,7 @@ import android.util.Log;
 /**
  * Created by bangchangbae on 16. 8. 29..
  */
-public class Uitil {
+public class Util {
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         reqWidth = reqWidth > 0 ? reqWidth : 1;

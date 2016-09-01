@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivUserProfile"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/ic_profile"
+            android:scaleType="centerCrop"
+            android:layout_margin="5dp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userid"
+                style="@style/UserIDAppearance"
+                android:text="웨얼유앳(Where U At)"
+                android:layout_alignParentTop="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text= "VR기기를 통해 화면 속 상황을 더욱 생생하게! 여행계획 시 필요한 꿀팁과 일정까지 GET!!!"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/userid"/>
+        </RelativeLayout>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.bangchangbae.friendlyapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.example.bangchangbae.friendlyapplication.common.Util;
+import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
 
 /**
  * Created by bangchangbae on 16. 8. 26..
@@ -90,7 +94,8 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if(convertView == null){
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, (int)(100*mContext.getResources().getDisplayMetrics().density)));
+            imageView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, (
+                    int)(100*mContext.getResources().getDisplayMetrics().density)));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
         else{
@@ -111,12 +116,20 @@ public class ImageAdapter extends BaseAdapter {
             Log.d("grid perf", "imageKey : " + imageKey + " use cached image");
         }
         imageView.setImageBitmap(thumbnailBitmap);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, ContentActivity.class);
+                context.startActivity(intent);
+            }
+        });
         return imageView;
     }
     private Bitmap resizeResource(int imageResourceId, int width, int height){
         int requestWidth = width;
         int requestHeight = height;
-        return Uitil.decodeSampledBitmapFromResource(mContext.getResources(), imageResourceId, requestWidth, requestHeight);
+        return Util.decodeSampledBitmapFromResource(mContext.getResources(), imageResourceId, requestWidth, requestHeight);
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {

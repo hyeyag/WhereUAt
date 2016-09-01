@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".GlobalData">
+        android:name=".common.GlobalData">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -19,6 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".content.ContentActivity" />
+        <activity android:name=".content.WriteContentActivity"/>
+        <activity android:name=".content.SearchContentActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
