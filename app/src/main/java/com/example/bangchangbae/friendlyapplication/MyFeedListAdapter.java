@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.example.bangchangbae.friendlyapplication.common.GlobalData;
 import com.example.bangchangbae.friendlyapplication.common.Util;
 import com.example.bangchangbae.friendlyapplication.data.MyFeed;
 
@@ -31,18 +32,10 @@ public class MyFeedListAdapter extends RecyclerView.Adapter<MyFeedListAdapter.Vi
     }
     public void update(){
         this.myList.clear();
-        MyFeed one = new MyFeed(R.drawable.songdo, R.drawable.mac, "[부산] 송도 해수욕장", 27, 8);
-        MyFeed two = new MyFeed(R.drawable.junju, R.drawable.mon, "[전주] 전주 한옥마을", 34, 10);
-        MyFeed three = new MyFeed(R.drawable.dome, R.drawable.hyo, "[구로] 고척 스카이돔", 52, 21);
-        myList.add(one);
-        myList.add(two);
-        myList.add(three);
-        myList.add(one);
-        myList.add(two);
-        myList.add(three);
-        myList.add(one);
-        myList.add(two);
-        myList.add(three);
+        this.myList = ((GlobalData)mContext.getApplicationContext()).getFeedList();
+    }
+    public int getPictureId(int index){
+        return myList.get(index).feed_img_src;
     }
 
     @Override
@@ -66,7 +59,7 @@ public class MyFeedListAdapter extends RecyclerView.Adapter<MyFeedListAdapter.Vi
         //new DownloadImageTask(holder.mProfileImageView).execute(my.profile_img_src);
         int mProfileImageViewWidth = holder.mProfileImageView.getLayoutParams().width;
         int mProfileImageViewHeight = holder.mProfileImageView.getLayoutParams().height;
-        Bitmap mProfileImageBitmap = resizeResource(my.profile_img_src, mProfileImageViewHeight, mProfileImageViewWidth);
+        Bitmap mProfileImageBitmap = resizeResource(my.profile_img_src, mProfileImageViewWidth, mProfileImageViewHeight);
         holder.mProfileImageView.setImageBitmap(mProfileImageBitmap);
 
         holder.mFeedTitleTextView.setText(my.title_name);
@@ -98,6 +91,7 @@ public class MyFeedListAdapter extends RecyclerView.Adapter<MyFeedListAdapter.Vi
             mLikesNumberTextSwitcher = (TextSwitcher) view.findViewById(R.id.tsLikesCounter);
             mViewsNumberTextSwitcher = (TextSwitcher) view.findViewById(R.id.tsViewCounter);
         }
+
 
     }
 

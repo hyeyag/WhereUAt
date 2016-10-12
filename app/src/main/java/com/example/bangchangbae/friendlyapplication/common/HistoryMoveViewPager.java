@@ -42,7 +42,7 @@ public class HistoryMoveViewPager extends ViewPager {
 
     }
 
-    void move(int item, boolean isSaveHistory){
+    protected void move(int item, boolean isSaveHistory){
         if(isSaveHistory) {
             int prevItem = (mPreviousItem > -1) ? mPreviousItem : 0;
             Log.d("viewpager steps", "move item  : " + item + " prevItem : " + prevItem);
@@ -122,7 +122,6 @@ public class HistoryMoveViewPager extends ViewPager {
                 }
             }
         }
-
         super.setOnPageChangeListener(mOnPageChangeListenerSaved);
     }
 }

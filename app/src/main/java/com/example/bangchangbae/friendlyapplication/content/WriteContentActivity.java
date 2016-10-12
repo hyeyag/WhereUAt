@@ -12,7 +12,7 @@ public class WriteContentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_detail);
+        setContentView(R.layout.item_editor);
     }
 
     @Override

@@ -7,60 +7,31 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.bangchangbae.friendlyapplication.MainActivity">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <!--<android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-        </android.support.v7.widget.Toolbar>-->
-
-        <!--<android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />-->
-
-    <!--</android.support.design.widget.AppBarLayout>-->
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.example.bangchangbae.friendlyapplication.common.HistoryMoveViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/tabs"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:tabTextAppearance="@style/TabLayoutTextAppearance"
-        android:background="#d9d9d9"
-        />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_above="@+id/tabs"
-        android:layout_alignParentRight="true"
-        android:src="@android:drawable/ic_input_add" />
-    </RelativeLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content">
+            <com.example.bangchangbae.friendlyapplication.common.HistoryMoveViewPager
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/tabs"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:tabTextAppearance="@style/TabLayoutTextAppearance"
+                android:background="#d9d9d9"
+                />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_above="@+id/tabs"
+                android:layout_alignParentRight="true"
+                android:src="@android:drawable/ic_input_add" />
+        </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

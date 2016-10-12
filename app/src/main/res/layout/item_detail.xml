@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="0px"
         android:layout_weight="40">
         <ImageView
             android:id="@+id/detailMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_feed_center_1" />
+            android:scaleType="centerCrop" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,29 +26,25 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/thumbnail01"
-            android:scaleType="fitCenter"
-            android:src="@drawable/thumbnail_001"/>
+            android:scaleType="fitCenter" />
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail02"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:src="@drawable/thumbnail_002"/>
+            android:scaleType="fitCenter" />
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail03"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:src="@drawable/thumbnail_003"/>
+            android:scaleType="fitCenter" />
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/thumbnail04"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:src="@drawable/thumbnail_004"/>
+            android:scaleType="fitCenter" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,8 +59,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/schecule_text"
-            android:text="#대학로 > #여의도 > #영등포"/>
+            android:id="@+id/schecule_text" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,7 +72,6 @@
             android:layout_height="0px"
             android:layout_weight="1"
             android:id="@+id/title_text"
-            android:text="[대학로] 이화벽화마을"
             android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,8 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/visitedDay"
-                android:text="2016.05.23"/>
+                android:id="@+id/visitedDay" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -99,8 +93,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/visitedTime"
-                android:text="05:00 pm"/>
+                android:id="@+id/visitedTime" />
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -117,8 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/viewsCounter"
-                    android:text="12300" />
+                    android:id="@+id/viewsCounter" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -132,8 +124,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/likesCounter"
-                    android:text="123" />
+                    android:id="@+id/likesCounter" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -150,7 +141,6 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:id="@+id/description"
-            android:text="제가 촬영하며 여행한 이곳은 대학로의 ‘이화벽화마을’입니다."
             android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
@@ -161,8 +151,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tag"
-            android:text="#대학로 #이화벽화마을 #포토존 #봄사진 #인생사진 #꽃벽화 #낙산공원"/>
+            android:id="@+id/tag" />
 
     </LinearLayout>
 

@@ -18,12 +18,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/userid"
                 style="@style/UserIDAppearance"
-                android:text="웨얼유앳(Where U At)"
                 android:layout_alignParentTop="true"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text= "VR기기를 통해 화면 속 상황을 더욱 생생하게! 여행계획 시 필요한 꿀팁과 일정까지 GET!!!"
+                android:id="@+id/userDescription"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/userid"/>
         </RelativeLayout>

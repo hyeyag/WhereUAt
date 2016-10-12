@@ -1,13 +1,17 @@
 package com.example.bangchangbae.friendlyapplication;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -15,21 +19,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.bangchangbae.friendlyapplication.common.GlobalData;
 import com.example.bangchangbae.friendlyapplication.common.HistoryMoveViewPager;
 import com.example.bangchangbae.friendlyapplication.common.RecyclerItemClickListener;
+import com.example.bangchangbae.friendlyapplication.common.Util;
 import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
 import com.example.bangchangbae.friendlyapplication.content.WriteContentActivity;
+import com.example.bangchangbae.friendlyapplication.data.MyProfile;
 import com.example.bangchangbae.friendlyapplication.data.MySearchResult;
 
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         };
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(iconList[i]);
-        };
+        }
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
@@ -238,7 +250,6 @@ public class MainActivity extends AppCompatActivity {
                     mRecyclerView.setLayoutManager(mLayoutManager);
 
                     mAdapter = new MyFeedListAdapter(context);
-                    mAdapter.setHasStableIds(true);
                     mRecyclerView.setAdapter(mAdapter);
 
                     mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -246,6 +257,9 @@ public class MainActivity extends AppCompatActivity {
                         public void onItemClick(View view, int position) {
                             Context context = view.getContext();
                             Intent intent = new Intent(context, ContentActivity.class);
+                            MyFeedListAdapter adapter = (MyFeedListAdapter)mRecyclerView.getAdapter();
+                            int pictureId = adapter.getPictureId(position);
+                            intent.putExtra(Util.PICTURE_ID, pictureId);
                             context.startActivity(intent);
                         }
 
@@ -259,41 +273,100 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(sectionNumber == 2){
                 rootView = inflater.inflate(R.layout.search_layout, container, false);
+                final Context context = rootView.getContext();
+
                 ListView searchResult = (ListView)rootView.findViewById(R.id.search_result_list);
-                ResultAdapter adapter = new ResultAdapter(rootView.getContext());
+                final ResultAdapter adapter = new ResultAdapter(rootView.getContext());
                 searchResult.setAdapter(adapter);
-                // TODO search 처리를 위해서 view를 하나 따야겠다
+                final SearchView searchView = (SearchView)rootView.findViewById(R.id.favorite_search);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        List<MySearchResult> results = ((GlobalData)context.getApplicationContext()).getSearchResult(query);
+                        searchView.setQuery("", false);
+                        searchView.setIconified(true);
+                        adapter.updateResults(results);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
 
             }
             else if (sectionNumber == 3){
-                // 이건 나중에~~
-                rootView = null;
+                rootView = inflater.inflate(R.layout.item_select_cam, container, false);
             }
             else if(sectionNumber == 4){
                 rootView = inflater.inflate(R.layout.favorite_layout, container, false);
-                Context context = rootView.getContext();
+                final Context context = rootView.getContext();
                 GridView infoGrid = (GridView)rootView.findViewById(R.id.gridview);
-                ImageAdapter imageAdapter = new ImageAdapter(context);
+                final ImageAdapter imageAdapter = new ImageAdapter(GlobalData.GRID_TYPE.FAVORITE, context);
                 infoGrid.setAdapter(imageAdapter);
-                // TODO 초기 구성 필요 : grid view 대신 검색 하라는 안내처음에는 아무것도 없음
-                // TODO grid view 에 click 이벤트 처리 -> content activity 로
-                // TODO search 처리를 위해서 view를 하나 따야겠다
+                infoGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(context, ContentActivity.class);
+                        int pictureId = imageAdapter.getPictureId(position);
+                        intent.putExtra(Util.PICTURE_ID, pictureId);
+                        context.startActivity(intent);
+                    }
+                });
+                final SearchView searchView = (SearchView)rootView.findViewById(R.id.favorite_search);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        List<Integer> results = ((GlobalData)context.getApplicationContext()).getMyThumbnailFavoriteImageList(query);
+                        searchView.setQuery("", false);
+                        searchView.setIconified(true);
+                        imageAdapter.updateResults(results);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
             }
             else if(sectionNumber == 5){
                 rootView = inflater.inflate(R.layout.my_info_layout, container, false);
                 Context context = rootView.getContext();
+
+                MyProfile profileData = ((GlobalData)context.getApplicationContext()).getMyProfile();
+                ImageView ivUserProfileImageView = (ImageView) rootView.findViewById(R.id.ivUserProfile);
+
+                int ivUserProfileImageViewWidth = ivUserProfileImageView.getLayoutParams().width;
+                int ivUserProfileImageViewHeight = ivUserProfileImageView.getLayoutParams().height;
+                Bitmap ivUserProfileImageBitmap = Util.decodeSampledBitmapFromResource(getResources(), profileData.profile_img_src, ivUserProfileImageViewWidth, ivUserProfileImageViewHeight);
+                ivUserProfileImageView.setImageBitmap(ivUserProfileImageBitmap);
+                TextView useridView = (TextView) rootView.findViewById(R.id.userid);
+                useridView.setText(profileData.user_name);
+                TextView userDescriptionView = (TextView) rootView.findViewById(R.id.userDescription);
+                userDescriptionView.setText(profileData.user_description);
+
+
                 GridView infoGrid = (GridView)rootView.findViewById(R.id.gridview);
-                ImageAdapter imageAdapter = new ImageAdapter(context);
+                final ImageAdapter imageAdapter = new ImageAdapter(GlobalData.GRID_TYPE.UPLOADED, context);
                 infoGrid.setAdapter(imageAdapter);
+
+                infoGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(context, ContentActivity.class);
+                        int pictureId = imageAdapter.getPictureId(position);
+                        intent.putExtra(Util.PICTURE_ID, pictureId);
+                        context.startActivity(intent);
+                    }
+                });
             }
             else{
-                rootView = inflater.inflate(R.layout.item_grid, container, false);
-                if (rootView instanceof GridView) {
-                    Context context = rootView.getContext();
-                    mGridView = (GridView) rootView;
-                    mImageAdapter = new ImageAdapter(context);
-                    mGridView.setAdapter(mImageAdapter);
-                }
+                Log.e("page error", "out of pages");
+                rootView = null;
             }
 
             return rootView;

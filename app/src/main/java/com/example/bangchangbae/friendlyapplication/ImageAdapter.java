@@ -11,8 +11,11 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.bangchangbae.friendlyapplication.common.GlobalData;
 import com.example.bangchangbae.friendlyapplication.common.Util;
 import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
+
+import java.util.List;
 
 /**
  * Created by bangchangbae on 16. 8. 26..
@@ -21,37 +24,9 @@ import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private LruCache<String, Bitmap> mMemoryCache;
-    private Integer[] mImageIds = {
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.img_feed_center_1, R.drawable.img_feed_center_2,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.dome, R.drawable.songdo,
-            R.drawable.songdo, R.drawable.junju,
-            R.drawable.dome, R.drawable.songdo
-    };
+    private List<Integer> mImageIds;
 
-    public ImageAdapter(Context context) {
+    public ImageAdapter(GlobalData.GRID_TYPE type, Context context) {
         mContext = context;
 
         // Get memory class of this device, exceeding this amount will throw an
@@ -72,11 +47,22 @@ public class ImageAdapter extends BaseAdapter {
             }
 
         };
+        GlobalData myGlobalData= (GlobalData)context.getApplicationContext();
+        mImageIds = myGlobalData.getMyThumbnailImageList(type);
+    }
+
+    public void updateResults(List<Integer> results) {
+        mImageIds = results;
+        notifyDataSetChanged();
+    }
+
+    public int getPictureId(int index){
+        return mImageIds.get(index);
     }
 
     @Override
     public int getCount() {
-        return mImageIds.length;
+        return mImageIds.size();
     }
 
     @Override
@@ -103,27 +89,19 @@ public class ImageAdapter extends BaseAdapter {
         }
         Log.d("view index", "grid index : " + position);
 
-        final String imageKey = String.valueOf(mImageIds[position]);
+        final String imageKey = String.valueOf(mImageIds.get(position));
         Log.d("grid perf", "imageKey : " + imageKey);
         Bitmap thumbnailBitmap = getBitmapFromMemCache(imageKey);
         if(thumbnailBitmap == null){
             int imageViewHeight = imageView.getLayoutParams().height;
             int imageViewWidth = imageView.getLayoutParams().width;
-            thumbnailBitmap = resizeResource(mImageIds[position], imageViewWidth, imageViewHeight);
+            thumbnailBitmap = resizeResource(mImageIds.get(position), imageViewWidth, imageViewHeight);
             addBitmapToMemoryCache(imageKey, thumbnailBitmap);
             Log.d("grid perf", "imageKey : " + imageKey + " use new image");
         }else{
             Log.d("grid perf", "imageKey : " + imageKey + " use cached image");
         }
         imageView.setImageBitmap(thumbnailBitmap);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ContentActivity.class);
-                context.startActivity(intent);
-            }
-        });
         return imageView;
     }
     private Bitmap resizeResource(int imageResourceId, int width, int height){

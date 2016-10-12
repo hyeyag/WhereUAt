@@ -9,6 +9,10 @@ import android.util.Log;
  * Created by bangchangbae on 16. 8. 29..
  */
 public class Util {
+    public static String PICTURE_ID = "picture id";
+    public static String SEARCH_KEYWORD = "search_keyword";
+    public static String PICKTURE_ID_LIST = "picture id_list";
+
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         reqWidth = reqWidth > 0 ? reqWidth : 1;

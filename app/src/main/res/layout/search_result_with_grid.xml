@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/search_keyword_text"
-            android:text="해운대"
             android:layout_alignParentRight="true"
             android:layout_toEndOf="@+id/back_button"
             android:layout_alignBottom="@+id/back_button"

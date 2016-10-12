@@ -11,4 +11,8 @@
         <item quantity="one">%d view</item>
         <item quantity="other">%d viewss</item>
     </plurals>
+
+    <string name="select_cam">Select Camera</string>
+    <string name="phone_cam">Use Phone Camera</string>
+    <string name="_360_cam">USE 360 Camera</string>
 </resources>
