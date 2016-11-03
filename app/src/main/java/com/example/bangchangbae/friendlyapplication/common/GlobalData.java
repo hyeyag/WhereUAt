@@ -1,7 +1,6 @@
 package com.example.bangchangbae.friendlyapplication.common;
 
 import android.app.Application;
-import android.util.Pair;
 
 import com.example.bangchangbae.friendlyapplication.R;
 import com.example.bangchangbae.friendlyapplication.data.MyDetail;
@@ -18,12 +17,7 @@ import java.util.List;
  * Created by bangchangbae on 16. 8. 29..
  */
 public class GlobalData extends Application {
-    public enum SearchType{
-        NONE,
-        HASH_TAG,
-        LOCATION,
-        PERSION_ID
-    }
+
     public enum GRID_TYPE {
         NONE,
         FAVORITE,

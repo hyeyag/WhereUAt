@@ -1,7 +1,6 @@
 package com.example.bangchangbae.friendlyapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 
 import com.example.bangchangbae.friendlyapplication.common.GlobalData;
 import com.example.bangchangbae.friendlyapplication.common.Util;
-import com.example.bangchangbae.friendlyapplication.content.ContentActivity;
 
 import java.util.List;
 

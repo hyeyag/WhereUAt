@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.bangchangbae.friendlyapplication.common.GlobalData;
 import com.example.bangchangbae.friendlyapplication.common.Util;
 import com.example.bangchangbae.friendlyapplication.content.SearchContentActivity;
-import com.example.bangchangbae.friendlyapplication.content.WriteContentActivity;
 import com.example.bangchangbae.friendlyapplication.data.MySearchResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
